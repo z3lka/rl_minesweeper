@@ -20,6 +20,7 @@ from .env import PRESETS, MinesweeperEnv, random_valid_actions
 from .evaluate import load_net
 
 WEB = Path("web")
+SITE_MODELS = {board: {f"{algo}_{board}" for algo in ("supervised", "dqn", "ppo")} for board in PRESETS}
 
 
 class CellsOnly(torch.nn.Module):
@@ -94,7 +95,8 @@ def main():
             r["run"] = f.stem
             r.pop("config", None)
             ckpt = Path("runs") / f.stem / "best.pt"
-            if ckpt.exists():
+            # the site only plays the main run of each learner; ablations stay as numbers
+            if f.stem in SITE_MODELS[board_dir.name] and ckpt.exists():
                 rel = Path("models") / board_dir.name / f"{f.stem}.onnx"
                 err = export_model(ckpt, WEB / "public" / rel)
                 r["model"] = rel.as_posix()

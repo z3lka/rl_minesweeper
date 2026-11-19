@@ -13,6 +13,63 @@ Five players on the same mine-grid puzzle, compared on the same 10,000 boards:
 The three learners share one fully convolutional ResNet (`msrl/models.py`), so a
 network trained on 9x9 also runs on larger boards.
 
+**Live site: https://z3lka.github.io/rl_minesweeper/** (the networks run in your browser)
+
+![The site: a live board on the left of the results](docs/site.jpg)
+
+## Results
+
+Each player plays the same 10,000 fixed boards. A forced guess is a loss where
+no cell was provably safe and the player took the best odds; a mistake is a
+loss it could have avoided.
+
+**9x9, 10 mines**
+
+| Player | Games won | Lost on a forced guess | Lost through its own mistake | Training time |
+| --- | --- | --- | --- | --- |
+| Exact solver | 96.2% | 3.9% | 0.0% | none |
+| Supervised | 95.6% | 3.8% | 0.6% | 14 min |
+| PPO | 95.0% | 2.6% | 2.5% | 57 min |
+| DQN | 94.0% | 2.8% | 3.2% | 25 min |
+| Random | 0.0% | 0.0% | 100.0% | none |
+
+**16x16, 40 mines** (learners fine-tuned from their 9x9 weights for 10M steps)
+
+| Player | Games won | Lost on a forced guess | Lost through its own mistake | Training time |
+| --- | --- | --- | --- | --- |
+| Exact solver | 87.2% | 12.8% | 0.0% | none |
+| Supervised | 85.8% | 11.4% | 2.8% | 28 min |
+| PPO | 82.0% | 5.6% | 12.4% | 89 min |
+| DQN | 76.8% | 7.4% | 15.8% | 52 min |
+| Supervised, 9x9 weights unchanged | 61.9% | 4.2% | 33.9% | none |
+| PPO, 9x9 weights unchanged | 28.5% | 1.8% | 69.7% | none |
+| DQN, 9x9 weights unchanged | 29.9% | 2.0% | 68.1% | none |
+
+**DQN ablations on 9x9** (8M steps each)
+
+| Player | Games won | Lost on a forced guess | Lost through its own mistake | Training time |
+| --- | --- | --- | --- | --- |
+| DQN baseline (discount 0.9, 15M steps) | 94.0% | 2.8% | 3.2% | 25 min |
+| Discount 0.99 | 94.2% | 2.9% | 2.9% | 13 min |
+| No per-cell reward | 93.4% | 2.8% | 3.8% | 14 min |
+| 3 blocks instead of 6 | 92.0% | 2.7% | 5.3% | 8 min |
+| Discount 0 | 90.5% | 3.2% | 6.3% | 13 min |
+
+What this shows:
+
+- The supervised network is the best learner on both boards and the cheapest to
+  train. It stays within 1.4 points of the exact solver.
+- The two RL agents get close on 9x9 and fall behind on 16x16. The gap is made
+  of avoidable mistakes, not bad luck.
+- PPO beats DQN, at about twice the training time.
+- For DQN, lookahead matters most (discount 0 costs about 3.5 points); the
+  per-cell reward matters least.
+- The exact solver cannot reach 100%: some boards force a guess.
+
+Everything was trained on one M4 Pro laptop (Apple GPU via MPS), 5.2 hours in
+total. No agent was trained on the expert board (30x16, 99 mines); only the
+solver (45.3%) and random baselines exist there.
+
 ## Run it
 
 ```sh
@@ -54,6 +111,11 @@ a `bad_guess` (had to guess, chose worse odds than the best) or `unlucky`
 msrl/        environment, solver, network, trainers, evaluation, export
 tests/       pytest suite
 results/     committed evaluation summaries and training curves
+docs/        README screenshot
 runs/        checkpoints and logs (ignored)
 web/         Vite + React site; game logic and solver ported to TypeScript
 ```
+
+## Licence
+
+MIT. See `LICENSE`.

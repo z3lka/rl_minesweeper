@@ -177,6 +177,32 @@ function Demo({ results }: { results: Results | null }) {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [explaining, whyKey, modelUrl]);
+  // one plain line about the pending click, always on
+  const reason = useMemo(() => {
+    if (!ready) return "";
+    const t = thought!;
+    const where = `row ${Math.floor(t.pick / game.spec.w) + 1}, column ${(t.pick % game.spec.w) + 1}`;
+    if (agent === "random") return `Next click: ${where}, chosen without looking.`;
+    const own =
+      agent === "dqn"
+        ? `it expects ${t.figure.toFixed(2)} reward`
+        : agent === "ppo"
+          ? `it holds ${share(t.figure)} of its preference`
+          : agent === "supervised"
+            ? `it rates it ${share(t.figure)} safe`
+            : `safe in ${share(t.figure)} of the possible layouts`;
+    if (agent === "solver" || !game.started) return `Next click: ${where}, ${own}.`;
+    const p = analyze(game.obs(), game.spec, 60_000);
+    if (!p) return `Next click: ${where}, ${own}.`;
+    let best = Infinity;
+    p.forEach((v) => {
+      if (!Number.isNaN(v) && v < best) best = v;
+    });
+    const mine = p[t.pick];
+    return `Next click: ${where}, ${own}. True mine risk ${risk(mine)}${mine > best + EPS ? `, and a ${risk(best)} cell exists` : ""}.`;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [ready, thought, agent]);
+
   const shownWhy = explaining && why?.key === whyKey ? why : null;
   const whyWords = shownWhy ? whyText(agent, shownWhy, game) : null;
   useEffect(() => {
@@ -251,6 +277,7 @@ function Demo({ results }: { results: Results | null }) {
       <p className={`demo-status ${game.done ? (game.won ? "won" : "lost") : ""}`} aria-live="polite">
         {status}
       </p>
+      <p className="demo-reason">{reason}</p>
       <div className="demo-actions">
         <button
           type="button"
@@ -329,6 +356,123 @@ function Demo({ results }: { results: Results | null }) {
 }
 
 /* --------------------------------------------------------------- players */
+
+/* ------------------------------------------------------- which one is better */
+type RankBy = "wins" | "mistakes" | "time";
+const RANKS: [RankBy, string][] = [
+  ["wins", "Most games won"],
+  ["mistakes", "Fewest mistakes"],
+  ["time", "Least training"],
+];
+const per1000 = (x: number) => Math.round(x * 1000).toLocaleString("en");
+const mistakes = (r: Result) => r.losses.blunder + r.losses.bad_guess + r.losses.unknown;
+
+function Standings({ results }: { results: Results | null }) {
+  const [board, setBoard] = useState<"beginner" | "intermediate">("beginner");
+  const [by, setBy] = useState<RankBy>("wins");
+  const rows = AGENTS.map((a) => ({ a, r: find(results, board, a.id) })).filter((x): x is { a: (typeof AGENTS)[number]; r: Result } => !!x.r);
+  if (rows.length < 3) return null;
+  const key = (r: Result) => (by === "wins" ? -r.win_rate : by === "mistakes" ? mistakes(r) : (r.train_seconds ?? 0));
+  rows.sort((x, y) => key(x.r) - key(y.r) || y.r.win_rate - x.r.win_rate);
+  const scale = Math.max(...rows.filter((x) => x.a.id !== "random").map((x) => 1 - x.r.win_rate));
+
+  // the verdict, written from the numbers
+  const learners = rows.filter((x) => LEARNERS.includes(x.a.id)).sort((x, y) => y.r.win_rate - x.r.win_rate);
+  const solver = rows.find((x) => x.a.id === "solver");
+  let verdict = "";
+  if (learners.length === 3 && solver) {
+    const [top, , last] = learners;
+    const rl = learners.filter((x) => x.a.id !== "supervised");
+    verdict =
+      `${top.a.name} is the best learner on this board. It wins ${pct(top.r.win_rate)}, ${(100 * (solver.r.win_rate - top.r.win_rate)).toFixed(1)} points behind the exact solver, ` +
+      `and throws away ${per1000(mistakes(top.r))} games in 1,000 through its own mistakes. ` +
+      `${last.a.name} is the weakest at ${pct(last.r.win_rate)}, with ${per1000(mistakes(last.r))} mistakes in 1,000. ` +
+      `Between the two that learn from reward alone, ${rl[0].a.name} wins ${(100 * (rl[0].r.win_rate - rl[1].r.win_rate)).toFixed(1)} points more than ${rl[1].a.name}` +
+      (rl[0].r.train_seconds && rl[1].r.train_seconds
+        ? ` and took ${(rl[0].r.train_seconds / rl[1].r.train_seconds).toFixed(1)} times as long to train.`
+        : ".");
+  }
+
+  return (
+    <section className="standings" id="standings">
+      <div className="standings-text">
+        <h2 {...reveal(0)}>Which one is better</h2>
+        <div className="judge" {...reveal(1)}>
+          <p>
+            <b>Games won</b> is the headline. Every player gets the same {rows[0].r.games.toLocaleString("en")} boards,
+            so the numbers compare directly.
+          </p>
+          <p>
+            <b>Mistakes</b> separate skill from luck. Some boards force a guess, and losing one of those is nobody's
+            fault. A mistake is a loss the player could have avoided: a safe cell or better odds were on the board.
+          </p>
+          <p>
+            <b>Training time</b> is the price. A player that wins slightly more but takes four times as long is not
+            simply better.
+          </p>
+        </div>
+      </div>
+      <div className="standings-board" data-ui {...reveal(2)}>
+        <div className="standings-controls">
+          <div className="seg" role="group" aria-label="Board size">
+            {(["beginner", "intermediate"] as const).map((name) => (
+              <button key={name} type="button" aria-pressed={board === name} onClick={() => setBoard(name)}>
+                {PRESETS[name].h} by {PRESETS[name].w}
+              </button>
+            ))}
+          </div>
+          <div className="seg" role="group" aria-label="Rank by">
+            {RANKS.map(([id, label]) => (
+              <button key={id} type="button" aria-pressed={by === id} onClick={() => setBy(id)}>
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+        <ol className="ranks">
+          {rows.map(({ a, r }, i) => {
+            const forced = r.losses.unlucky;
+            const own = mistakes(r);
+            const lost = 1 - r.win_rate;
+            const clip = Math.min(1, scale / lost);
+            return (
+              <li key={a.id}>
+                <span className="rank">{i + 1}</span>
+                <div className="who">
+                  <h3>{a.name}</h3>
+                  <p>{a.kind}</p>
+                </div>
+                <p className="won">
+                  <b>{pct(r.win_rate)}</b> won
+                </p>
+                <div className="lost">
+                  <div
+                    className="lost-bar"
+                    role="img"
+                    aria-label={`${per1000(forced)} forced losses and ${per1000(own)} mistakes per 1,000 games`}
+                  >
+                    <span className="forced" style={{ width: `${((forced * clip) / scale) * 100}%` }} />
+                    <span className="own" style={{ width: `${((own * clip) / scale) * 100}%` }} />
+                  </div>
+                  <p>
+                    {per1000(forced)} forced, <b>{per1000(own)} mistakes</b>
+                    {lost > scale + EPS ? " (off the scale)" : ""}
+                  </p>
+                </div>
+                <p className="time">{r.train_seconds ? duration(r.train_seconds) : "No training"}</p>
+              </li>
+            );
+          })}
+        </ol>
+        <p className="ranks-key">
+          Bars show games lost in every 1,000. <i className="forced" /> Forced guess, unavoidable. <i className="own" />{" "}
+          The player's own mistake.
+        </p>
+        {verdict && <p className="verdict">{verdict}</p>}
+      </div>
+    </section>
+  );
+}
 
 function Sheet({ id, result }: { id: AgentId; result?: Result }) {
   const info = agentInfo(id);
@@ -451,6 +595,7 @@ const RACER_NOTE: Partial<Record<AgentId, string>> = {
 interface Plan extends Thought {
   risk: number; // true chance that the chosen cell is a mine
   best: number; // lowest such chance anywhere on the board
+  bestCell: number;
 }
 
 
@@ -487,6 +632,9 @@ function Race({ results }: { results: Results | null }) {
   const [verdicts, setVerdicts] = useState<Partial<Record<AgentId, string>>>({});
   const [tally, setTally] = useState<Partial<Record<AgentId, { won: number; played: number }>>>({});
   const [playing, setPlaying] = useState(false);
+  const [stopOnSlip, setStopOnSlip] = useState(true);
+  const held = useRef("");
+  const dealt = useRef(0);
   const [visible, setVisible] = useState(false);
   const stage = useRef<HTMLDivElement>(null);
 
@@ -506,13 +654,17 @@ function Race({ results }: { results: Results | null }) {
         const t = await think(id, g, url(id));
         const p = analyze(g.obs(), spec);
         let best = NaN;
+        let bestCell = -1;
         if (p) {
           best = Infinity;
-          p.forEach((v) => {
-            if (!Number.isNaN(v) && v < best) best = v;
+          p.forEach((v, i) => {
+            if (!Number.isNaN(v) && v < best) {
+              best = v;
+              bestCell = i;
+            }
           });
         }
-        by[id] = { ...t, risk: p ? p[t.pick] : NaN, best };
+        by[id] = { ...t, risk: p ? p[t.pick] : NaN, best, bestCell };
       }
       if (live) setPlans({ round, by });
     })().catch(() => {});
@@ -555,6 +707,7 @@ function Race({ results }: { results: Results | null }) {
 
   const deal = useCallback(
     (scores: ArrayLike<number>) => {
+      dealt.current++;
       setGames(start(scores));
       setVerdicts({});
       bump();
@@ -605,9 +758,20 @@ function Race({ results }: { results: Results | null }) {
       return;
     }
     if (!ready) return;
+    // stop once, just before a player takes a worse risk than it had to
+    const slip = idKey.split(",").some((id) => {
+      const p = plans!.by[id as AgentId];
+      return !!p && p.risk > p.best + EPS;
+    });
+    if (stopOnSlip && slip && held.current !== `${dealt.current}:${round}`) {
+      held.current = `${dealt.current}:${round}`;
+      setPlaying(false);
+      return;
+    }
     const t = setTimeout(step, 650);
     return () => clearTimeout(t);
-  }, [playing, visible, ready, allDone, step]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [playing, visible, ready, allDone, step, stopOnSlip]);
 
   return (
     <section className="race" id="race">
@@ -615,8 +779,9 @@ function Race({ results }: { results: Results | null }) {
         <h2 {...reveal(0)}>The same board, four ways</h2>
         <p {...reveal(1)}>
           Every player below gets the same mines and the same opening click. Blue shows what each one thinks of the
-          hidden cells. Under each board is the true risk of the click it is about to make, so you can see who is
-          reasoning and who is gambling. Most boards all four clear, so there is a button to find one they do not.
+          hidden cells. Under each board is the true risk of the click it is about to make. When a player is about to
+          take a worse risk than it has to, play pauses and the better cell is outlined with dashes. Most boards all
+          four clear, so there is a button to find one they do not.
         </p>
       </div>
       <div className="race-stage" data-ui ref={stage} {...reveal(2)}>
@@ -643,6 +808,10 @@ function Race({ results }: { results: Results | null }) {
           <button type="button" className="ui-btn" disabled={searching || ids.length < 2} onClick={findSplit}>
             {searching ? "Searching" : "Find a board that splits them"}
           </button>
+          <label className="switch">
+            <input type="checkbox" checked={stopOnSlip} onChange={(e) => setStopOnSlip(e.target.checked)} />
+            Pause before a mistake
+          </label>
         </div>
         <div className="lanes">
           {ids.map((id) => {
@@ -658,6 +827,7 @@ function Race({ results }: { results: Results | null }) {
                   game={g}
                   heat={plan?.heat}
                   pick={plan?.pick}
+                  safer={worse ? plan!.bestCell : undefined}
                   showMines
                   label={`${agentInfo(id).name} playing a ${spec.h} by ${spec.w} board`}
                 />
@@ -668,7 +838,7 @@ function Race({ results }: { results: Results | null }) {
                   {g.done
                     ? (verdicts[id] ?? "Every safe cell opened.")
                     : plan && !Number.isNaN(plan.risk)
-                      ? `Next click: ${risk(plan.risk)} chance of a mine${worse ? `, though a ${risk(plan.best)} cell exists` : ""}.`
+                      ? `Next click: ${risk(plan.risk)} chance of a mine${worse ? `. The dashed cell is ${risk(plan.best)}` : ""}.`
                       : "Thinking."}
                 </p>
                 <p className="lane-tally">{t ? `Won ${t.won} of ${t.played} here` : "No boards finished yet"}</p>
@@ -950,7 +1120,7 @@ function RunTable({ caption, rows, runs }: { caption: string; rows: [string, str
   const found = rows.map(([run, label]) => ({ label, r: runs.find((x) => x.run === run) })).filter((x) => x.r);
   if (found.length < 2) return null;
   return (
-    <table className="runs" {...reveal(1)}>
+    <table className="runs">
       <caption>{caption}</caption>
       <thead>
         <tr>
@@ -981,12 +1151,12 @@ function Variations({ results }: { results: Results | null }) {
   return (
     <section className="variations" id="variations">
       <div className="variations-text">
-        <h2 {...reveal(0)}>Change one thing</h2>
-        <p {...reveal(1)}>
+        <h2>Change one thing</h2>
+        <p>
           The same code, run again with a single setting altered, and the 9 by 9 networks moved to a 16 by 16 board
           with 40 mines. A blunder is a game lost while a provably safe cell was still on the board.
         </p>
-        <p {...reveal(2)}>
+        <p>
           Looking ahead matters most: with no lookahead DQN loses about three and a half points, while the reward for
           each opened cell is worth less than one. On the bigger board the 9 by 9 networks blunder constantly until
           they are trained there, and the gap between learning from answers and learning from reward grows from one
@@ -1037,8 +1207,9 @@ export function App() {
           Sweep
         </a>
         <nav aria-label="Sections">
-          <a href="#players">Players</a>
+          <a href="#standings">Verdict</a>
           <a href="#race">Side by side</a>
+          <a href="#players">Players</a>
           <a href="#method">Method</a>
           <a href="#training">Training</a>
           <a href="#cost">Cost</a>
@@ -1053,8 +1224,8 @@ export function App() {
               boards. The board on this page is live: watch any of them think, one cell at a time.
             </p>
             <div className="hero-actions">
-              <a className="btn" href="#players">
-                Compare the players
+              <a className="btn" href="#standings">
+                See which is better
               </a>
               <a className="link" href="#method">
                 How a move is made
@@ -1075,6 +1246,7 @@ export function App() {
             <Demo results={results} />
           </div>
         </section>
+        <Standings results={results} />
         <Players results={results} />
         <Race results={results} />
         <Steps />

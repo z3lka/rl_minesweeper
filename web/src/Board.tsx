@@ -11,6 +11,8 @@ interface Props {
   /** 0..1 per cell: how much each open number matters to the cell being explained. */
   why?: Float32Array | null;
   target?: number;
+  /** A cell with better odds than the one picked. */
+  safer?: number;
   onHover?: (cell: number | null) => void;
 }
 
@@ -24,7 +26,7 @@ function MineMark() {
 }
 
 /** The board. Hidden cells are tinted by `heat`; `pick` is ringed. */
-export function Board({ game, heat, pick, onCell, showMines, label, why, target, onHover }: Props) {
+export function Board({ game, heat, pick, onCell, showMines, label, why, target, safer, onHover }: Props) {
   const { h, w } = game.spec;
   const cells = [];
   for (let i = 0; i < h * w; i++) {
@@ -41,6 +43,7 @@ export function Board({ game, heat, pick, onCell, showMines, label, why, target,
       pick === i && !game.done ? "pick" : "",
       target === i && pick !== i && !revealed && !game.done ? "target" : "",
       weight ? "why" : "",
+      safer === i && !revealed && !game.done ? "safer" : "",
     ]
       .filter(Boolean)
       .join(" ");

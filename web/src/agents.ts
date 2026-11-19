@@ -55,6 +55,8 @@ export const AGENTS: { id: AgentId; name: string; kind: string; about: string; h
 export interface Thought {
   heat: Float32Array; // 0..1 per cell, NaN where revealed
   pick: number;
+  /** The player's own figure for the chosen cell: chance safe, expected reward or share of preference. */
+  figure: number;
 }
 
 const sessions = new Map<string, Promise<ort.InferenceSession>>();
@@ -91,7 +93,7 @@ export async function think(id: AgentId, game: Game, modelUrl?: string): Promise
         hidden.push(i);
       }
     });
-    return { heat, pick: hidden[Math.floor(Math.random() * hidden.length)] };
+    return { heat, pick: hidden[Math.floor(Math.random() * hidden.length)], figure: NaN };
   }
 
   if (id === "solver") {
@@ -100,7 +102,8 @@ export async function think(id: AgentId, game: Game, modelUrl?: string): Promise
     p.forEach((v, i) => {
       if (!Number.isNaN(v)) heat[i] = 1 - v;
     });
-    return { heat, pick: game.started ? argBest(p, -1) : center };
+    const chosen = game.started ? argBest(p, -1) : center;
+    return { heat, pick: chosen, figure: 1 - p[chosen] };
   }
 
   if (!modelUrl) throw new Error(`no model for ${id}`);
@@ -121,7 +124,7 @@ export async function think(id: AgentId, game: Game, modelUrl?: string): Promise
     heat[i] = id === "supervised" ? 1 / (1 + Math.exp(-cells[i])) : hi > lo ? (cells[i] - lo) / (hi - lo) : 0.5;
   }
   const pick = id === "supervised" && !game.started ? center : argBest(raw, 1);
-  return { heat, pick };
+  return { heat, pick, figure: view(id, cells, obs)[pick] };
 }
 
 /* ---------------------------------------------------------- explanations */

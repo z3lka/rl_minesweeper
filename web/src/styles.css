@@ -264,6 +264,10 @@ button.cell.shut:active:not(:disabled) {
 .cell.target {
   box-shadow: inset 0 0 0 3px var(--ink); /* taste-skill-ignore: marks the cell being explained inside the interface fragment */
 }
+.cell.safer {
+  outline: 2px dashed var(--ink);
+  outline-offset: -5px;
+}
 .cell.open.why {
   box-shadow: inset 0 0 0 var(--why) var(--ink); /* taste-skill-ignore: evidence ring inside the interface fragment */
 }
@@ -418,6 +422,11 @@ button.cell.shut:active:not(:disabled) {
 .demo-status.won {
   color: var(--accent);
 }
+.demo-reason {
+  margin: -6px 0 12px;
+  min-height: 2.8em;
+  color: var(--muted);
+}
 .demo-tally {
   margin-left: auto;
   color: var(--muted);
@@ -449,6 +458,126 @@ button.cell.shut:active:not(:disabled) {
   color: var(--muted);
   font-size: 14px;
   min-height: 3.2em;
+}
+
+/* ------------------------------------------------------ which one is better */
+.standings {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  column-gap: var(--margin);
+  padding: 0 var(--margin);
+  margin-top: var(--gap);
+}
+.standings-text {
+  grid-column: 1 / span 4;
+}
+.standings-text h2 {
+  font-size: var(--step-head);
+  font-weight: 500;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 36px;
+}
+.judge p {
+  max-width: 36ch;
+}
+.judge p + p {
+  margin-top: 18px;
+}
+.judge b,
+.lost b,
+.won b {
+  font-weight: 600;
+}
+.standings-board {
+  grid-column: 6 / span 7;
+  background: var(--surface);
+  padding: clamp(16px, 2.6vw, 40px);
+  font-size: 15px;
+}
+.standings-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+.ranks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ranks li {
+  display: grid;
+  grid-template-columns: 1.6em minmax(0, 1.25fr) 6.2em minmax(0, 1.5fr) 6em;
+  column-gap: 16px;
+  align-items: center;
+  padding: 14px 16px;
+  margin-bottom: 4px;
+  background: var(--bg);
+}
+.rank {
+  font-size: var(--step-lead);
+  color: var(--muted);
+}
+.who h3 {
+  font-size: var(--step-lead);
+  font-weight: 500;
+  line-height: 1.15;
+}
+.who p,
+.lost p,
+.time,
+.ranks-key {
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.won b {
+  display: block;
+  font-size: var(--step-lead);
+  line-height: 1.1;
+}
+.won {
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.won b,
+.lost b {
+  color: var(--ink);
+}
+.lost-bar {
+  display: flex;
+  gap: 2px;
+  height: 18px;
+  margin-bottom: 6px;
+  background: var(--surface);
+}
+.lost-bar span {
+  transition: width 500ms var(--ease);
+}
+.forced {
+  background: #8f8d84;
+}
+.own {
+  background: var(--ink);
+}
+.time {
+  text-align: right;
+}
+.ranks-key {
+  padding-top: 12px;
+}
+.ranks-key i {
+  display: inline-block;
+  width: 11px;
+  height: 11px;
+  margin: 0 5px 0 10px;
+}
+.verdict {
+  margin-top: 24px;
+  font-size: var(--step-body);
+  line-height: 1.4;
+  max-width: 62ch;
 }
 
 /* ------------------------------------------------ the same board, four ways */
@@ -1172,6 +1301,16 @@ section {
   .race-head p {
     grid-column: 1 / -1;
   }
+  .standings-text,
+  .standings-board {
+    grid-column: 1 / -1;
+  }
+  .standings-text {
+    margin-bottom: 40px;
+  }
+  .judge p {
+    max-width: 56ch;
+  }
   .race-head h2 {
     margin-bottom: 16px;
   }
@@ -1277,6 +1416,23 @@ section {
 
 /* ------------------------------------------------------------------ phone */
 @media (max-width: 620px) {
+  .standings-board {
+    margin: 0 calc(var(--margin) * -1);
+  }
+  .ranks li {
+    grid-template-columns: 1.4em 1fr auto;
+    row-gap: 10px;
+  }
+  .ranks .won {
+    text-align: right;
+  }
+  .ranks .lost {
+    grid-column: 2 / -1;
+  }
+  .ranks .time {
+    grid-column: 2 / -1;
+    text-align: left;
+  }
   .lanes {
     column-gap: 14px;
   }
