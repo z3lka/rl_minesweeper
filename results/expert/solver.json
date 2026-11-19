@@ -1,0 +1,20 @@
+{
+  "agent": "solver",
+  "board": {
+    "h": 16,
+    "w": 30,
+    "mines": 99
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.4533,
+  "cleared": 0.8919863517060368,
+  "mean_moves": 182.0095,
+  "eval_seconds": 2912.77,
+  "losses": {
+    "blunder": 0.0038,
+    "bad_guess": 0.0,
+    "unlucky": 0.4376,
+    "unknown": 0.1053
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "agent": "ppo_zeroshot",
+  "board": {
+    "h": 16,
+    "w": 16,
+    "mines": 40
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.2852,
+  "cleared": 0.598761574074074,
+  "mean_moves": 27.3056,
+  "eval_seconds": 85.22,
+  "losses": {
+    "blunder": 0.6732,
+    "bad_guess": 0.0119,
+    "unlucky": 0.0177,
+    "unknown": 0.012
+  }
+}

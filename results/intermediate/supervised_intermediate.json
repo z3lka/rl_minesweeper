@@ -1,0 +1,231 @@
+{
+  "agent": "supervised_intermediate",
+  "board": {
+    "h": 16,
+    "w": 16,
+    "mines": 40
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.8583,
+  "cleared": 0.9915388888888889,
+  "mean_moves": 78.6569,
+  "eval_seconds": 58.0,
+  "losses": {
+    "blunder": 0.0131,
+    "bad_guess": 0.0144,
+    "unlucky": 0.1141,
+    "unknown": 0.0001
+  },
+  "algo": "supervised",
+  "train_seconds": 1661.2,
+  "env_steps": 9999360,
+  "best_at_env_steps": 8525824,
+  "params": 449025,
+  "device": "mps",
+  "config": {
+    "board": "intermediate",
+    "name": null,
+    "env_steps": 10000000.0,
+    "channels": 64,
+    "blocks": 6,
+    "init": "runs/supervised_beginner/best.pt",
+    "device": "auto",
+    "seed": 0,
+    "eval_every": 500000,
+    "eval_games": 2000,
+    "envs": 1024,
+    "lr": 0.0005,
+    "explore": 0.1
+  },
+  "curve": [
+    {
+      "env_steps": 0,
+      "wall": 12.9,
+      "win_rate": 0.646,
+      "cleared": 0.9465,
+      "loss": 0.0
+    },
+    {
+      "env_steps": 20480,
+      "wall": 28.4,
+      "win_rate": 0.831,
+      "cleared": 0.9849,
+      "loss": 0.06592
+    },
+    {
+      "env_steps": 51200,
+      "wall": 44.2,
+      "win_rate": 0.842,
+      "cleared": 0.9876,
+      "loss": 0.12072
+    },
+    {
+      "env_steps": 97280,
+      "wall": 62.2,
+      "win_rate": 0.845,
+      "cleared": 0.9857,
+      "loss": 0.17351
+    },
+    {
+      "env_steps": 166912,
+      "wall": 85.1,
+      "win_rate": 0.844,
+      "cleared": 0.989,
+      "loss": 0.22287
+    },
+    {
+      "env_steps": 271360,
+      "wall": 113.8,
+      "win_rate": 0.835,
+      "cleared": 0.9869,
+      "loss": 0.26324
+    },
+    {
+      "env_steps": 428032,
+      "wall": 150.8,
+      "win_rate": 0.8295,
+      "cleared": 0.9843,
+      "loss": 0.27862
+    },
+    {
+      "env_steps": 662528,
+      "wall": 199.3,
+      "win_rate": 0.845,
+      "cleared": 0.9871,
+      "loss": 0.28254
+    },
+    {
+      "env_steps": 1014784,
+      "wall": 261.5,
+      "win_rate": 0.8315,
+      "cleared": 0.9846,
+      "loss": 0.28141
+    },
+    {
+      "env_steps": 1515520,
+      "wall": 339.6,
+      "win_rate": 0.8405,
+      "cleared": 0.9861,
+      "loss": 0.28023
+    },
+    {
+      "env_steps": 2016256,
+      "wall": 417.9,
+      "win_rate": 0.8295,
+      "cleared": 0.9846,
+      "loss": 0.28089
+    },
+    {
+      "env_steps": 2516992,
+      "wall": 495.7,
+      "win_rate": 0.835,
+      "cleared": 0.9853,
+      "loss": 0.28045
+    },
+    {
+      "env_steps": 3017728,
+      "wall": 573.6,
+      "win_rate": 0.849,
+      "cleared": 0.9861,
+      "loss": 0.28115
+    },
+    {
+      "env_steps": 3518464,
+      "wall": 652.1,
+      "win_rate": 0.8535,
+      "cleared": 0.9887,
+      "loss": 0.28177
+    },
+    {
+      "env_steps": 4019200,
+      "wall": 729.6,
+      "win_rate": 0.847,
+      "cleared": 0.9875,
+      "loss": 0.28196
+    },
+    {
+      "env_steps": 4519936,
+      "wall": 807.6,
+      "win_rate": 0.852,
+      "cleared": 0.9885,
+      "loss": 0.28315
+    },
+    {
+      "env_steps": 5020672,
+      "wall": 885.1,
+      "win_rate": 0.8525,
+      "cleared": 0.9901,
+      "loss": 0.28226
+    },
+    {
+      "env_steps": 5521408,
+      "wall": 963.6,
+      "win_rate": 0.854,
+      "cleared": 0.9885,
+      "loss": 0.28292
+    },
+    {
+      "env_steps": 6022144,
+      "wall": 1041.0,
+      "win_rate": 0.847,
+      "cleared": 0.988,
+      "loss": 0.28386
+    },
+    {
+      "env_steps": 6522880,
+      "wall": 1118.5,
+      "win_rate": 0.8505,
+      "cleared": 0.9889,
+      "loss": 0.28417
+    },
+    {
+      "env_steps": 7023616,
+      "wall": 1196.9,
+      "win_rate": 0.8515,
+      "cleared": 0.9888,
+      "loss": 0.28435
+    },
+    {
+      "env_steps": 7524352,
+      "wall": 1274.9,
+      "win_rate": 0.854,
+      "cleared": 0.9885,
+      "loss": 0.2834
+    },
+    {
+      "env_steps": 8025088,
+      "wall": 1353.1,
+      "win_rate": 0.85,
+      "cleared": 0.9874,
+      "loss": 0.2845
+    },
+    {
+      "env_steps": 8525824,
+      "wall": 1431.7,
+      "win_rate": 0.8545,
+      "cleared": 0.9874,
+      "loss": 0.28351
+    },
+    {
+      "env_steps": 9026560,
+      "wall": 1509.2,
+      "win_rate": 0.846,
+      "cleared": 0.9866,
+      "loss": 0.28373
+    },
+    {
+      "env_steps": 9527296,
+      "wall": 1587.2,
+      "win_rate": 0.8535,
+      "cleared": 0.9901,
+      "loss": 0.28245
+    },
+    {
+      "env_steps": 9999360,
+      "wall": 1661.2,
+      "win_rate": 0.8485,
+      "cleared": 0.9899
+    }
+  ]
+}

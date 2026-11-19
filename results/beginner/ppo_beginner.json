@@ -1,0 +1,462 @@
+{
+  "agent": "ppo_beginner",
+  "board": {
+    "h": 9,
+    "w": 9,
+    "mines": 10
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.9497,
+  "cleared": 0.9941098591549297,
+  "mean_moves": 15.0957,
+  "eval_seconds": 6.23,
+  "losses": {
+    "blunder": 0.0225,
+    "bad_guess": 0.0021,
+    "unlucky": 0.0257,
+    "unknown": 0.0
+  },
+  "algo": "ppo",
+  "train_seconds": 3439.9,
+  "env_steps": 19988480,
+  "best_at_env_steps": 19759104,
+  "params": 457346,
+  "device": "mps",
+  "config": {
+    "board": "beginner",
+    "name": null,
+    "env_steps": 20000000.0,
+    "channels": 64,
+    "blocks": 6,
+    "init": null,
+    "device": "auto",
+    "seed": 0,
+    "eval_every": 500000,
+    "eval_games": 2000,
+    "envs": 1024,
+    "rollout": 16,
+    "epochs": 3,
+    "minibatch": 2048,
+    "lr": 0.0003,
+    "gamma": 0.9,
+    "lam": 0.95,
+    "clip": 0.2,
+    "entropy": 0.01,
+    "value_coef": 0.5,
+    "progress_reward": 1.0
+  },
+  "curve": [
+    {
+      "env_steps": 0,
+      "wall": 1.4,
+      "win_rate": 0.0,
+      "cleared": 0.5099,
+      "loss_pi": 0.0,
+      "loss_v": 0.0,
+      "entropy": 0.0
+    },
+    {
+      "env_steps": 32768,
+      "wall": 7.7,
+      "win_rate": 0.0055,
+      "cleared": 0.8242,
+      "loss_pi": -0.02713,
+      "loss_v": 0.056,
+      "entropy": 3.70142
+    },
+    {
+      "env_steps": 81920,
+      "wall": 17.1,
+      "win_rate": 0.0315,
+      "cleared": 0.8469,
+      "loss_pi": -0.02868,
+      "loss_v": 0.05792,
+      "entropy": 3.38217
+    },
+    {
+      "env_steps": 147456,
+      "wall": 29.9,
+      "win_rate": 0.1335,
+      "cleared": 0.8766,
+      "loss_pi": -0.02109,
+      "loss_v": 0.08812,
+      "entropy": 2.83024
+    },
+    {
+      "env_steps": 245760,
+      "wall": 48.2,
+      "win_rate": 0.3175,
+      "cleared": 0.9055,
+      "loss_pi": -0.01692,
+      "loss_v": 0.22106,
+      "entropy": 2.20511
+    },
+    {
+      "env_steps": 393216,
+      "wall": 74.7,
+      "win_rate": 0.5595,
+      "cleared": 0.9322,
+      "loss_pi": -0.02445,
+      "loss_v": 0.23205,
+      "entropy": 1.8007
+    },
+    {
+      "env_steps": 622592,
+      "wall": 116.2,
+      "win_rate": 0.7115,
+      "cleared": 0.95,
+      "loss_pi": -0.01883,
+      "loss_v": 0.15887,
+      "entropy": 1.61263
+    },
+    {
+      "env_steps": 966656,
+      "wall": 176.6,
+      "win_rate": 0.786,
+      "cleared": 0.9598,
+      "loss_pi": -0.0106,
+      "loss_v": 0.11859,
+      "entropy": 1.40828
+    },
+    {
+      "env_steps": 1474560,
+      "wall": 266.9,
+      "win_rate": 0.8565,
+      "cleared": 0.9751,
+      "loss_pi": -0.01103,
+      "loss_v": 0.08886,
+      "entropy": 1.31568
+    },
+    {
+      "env_steps": 1982464,
+      "wall": 356.8,
+      "win_rate": 0.889,
+      "cleared": 0.9812,
+      "loss_pi": -0.01743,
+      "loss_v": 0.08674,
+      "entropy": 1.36073
+    },
+    {
+      "env_steps": 2490368,
+      "wall": 446.4,
+      "win_rate": 0.907,
+      "cleared": 0.9859,
+      "loss_pi": -0.01724,
+      "loss_v": 0.06666,
+      "entropy": 1.2786
+    },
+    {
+      "env_steps": 2998272,
+      "wall": 537.4,
+      "win_rate": 0.9205,
+      "cleared": 0.9871,
+      "loss_pi": -0.01742,
+      "loss_v": 0.07158,
+      "entropy": 1.23267
+    },
+    {
+      "env_steps": 3506176,
+      "wall": 628.6,
+      "win_rate": 0.89,
+      "cleared": 0.976,
+      "loss_pi": -0.02058,
+      "loss_v": 0.06377,
+      "entropy": 1.2476
+    },
+    {
+      "env_steps": 4014080,
+      "wall": 719.8,
+      "win_rate": 0.9015,
+      "cleared": 0.9791,
+      "loss_pi": -0.01725,
+      "loss_v": 0.07467,
+      "entropy": 1.1664
+    },
+    {
+      "env_steps": 4521984,
+      "wall": 811.1,
+      "win_rate": 0.9,
+      "cleared": 0.9788,
+      "loss_pi": -0.01606,
+      "loss_v": 0.06295,
+      "entropy": 1.21073
+    },
+    {
+      "env_steps": 5029888,
+      "wall": 906.0,
+      "win_rate": 0.9285,
+      "cleared": 0.9848,
+      "loss_pi": -0.02052,
+      "loss_v": 0.05548,
+      "entropy": 1.15725
+    },
+    {
+      "env_steps": 5537792,
+      "wall": 994.1,
+      "win_rate": 0.9245,
+      "cleared": 0.9843,
+      "loss_pi": -0.02468,
+      "loss_v": 0.07113,
+      "entropy": 1.21373
+    },
+    {
+      "env_steps": 6045696,
+      "wall": 1082.7,
+      "win_rate": 0.9345,
+      "cleared": 0.989,
+      "loss_pi": -0.01601,
+      "loss_v": 0.05964,
+      "entropy": 1.16933
+    },
+    {
+      "env_steps": 6553600,
+      "wall": 1172.5,
+      "win_rate": 0.9225,
+      "cleared": 0.9852,
+      "loss_pi": -0.01617,
+      "loss_v": 0.05606,
+      "entropy": 1.12665
+    },
+    {
+      "env_steps": 7061504,
+      "wall": 1262.9,
+      "win_rate": 0.932,
+      "cleared": 0.9884,
+      "loss_pi": -0.01999,
+      "loss_v": 0.05982,
+      "entropy": 1.10563
+    },
+    {
+      "env_steps": 7569408,
+      "wall": 1354.2,
+      "win_rate": 0.927,
+      "cleared": 0.9869,
+      "loss_pi": -0.01521,
+      "loss_v": 0.05387,
+      "entropy": 1.22473
+    },
+    {
+      "env_steps": 8077312,
+      "wall": 1442.6,
+      "win_rate": 0.939,
+      "cleared": 0.9921,
+      "loss_pi": -0.01846,
+      "loss_v": 0.04038,
+      "entropy": 1.13496
+    },
+    {
+      "env_steps": 8585216,
+      "wall": 1527.8,
+      "win_rate": 0.935,
+      "cleared": 0.9883,
+      "loss_pi": -0.01909,
+      "loss_v": 0.0519,
+      "entropy": 1.17333
+    },
+    {
+      "env_steps": 9093120,
+      "wall": 1612.7,
+      "win_rate": 0.93,
+      "cleared": 0.9878,
+      "loss_pi": -0.01988,
+      "loss_v": 0.04683,
+      "entropy": 1.08084
+    },
+    {
+      "env_steps": 9601024,
+      "wall": 1697.8,
+      "win_rate": 0.934,
+      "cleared": 0.9895,
+      "loss_pi": -0.01189,
+      "loss_v": 0.04506,
+      "entropy": 1.08072
+    },
+    {
+      "env_steps": 10108928,
+      "wall": 1782.9,
+      "win_rate": 0.942,
+      "cleared": 0.9908,
+      "loss_pi": -0.01429,
+      "loss_v": 0.04695,
+      "entropy": 1.12619
+    },
+    {
+      "env_steps": 10616832,
+      "wall": 1868.1,
+      "win_rate": 0.939,
+      "cleared": 0.9885,
+      "loss_pi": -0.01611,
+      "loss_v": 0.03317,
+      "entropy": 1.08494
+    },
+    {
+      "env_steps": 11124736,
+      "wall": 1953.7,
+      "win_rate": 0.9375,
+      "cleared": 0.9892,
+      "loss_pi": -0.01755,
+      "loss_v": 0.04171,
+      "entropy": 1.03858
+    },
+    {
+      "env_steps": 11632640,
+      "wall": 2039.4,
+      "win_rate": 0.94,
+      "cleared": 0.9919,
+      "loss_pi": -0.01554,
+      "loss_v": 0.04706,
+      "entropy": 1.04369
+    },
+    {
+      "env_steps": 12140544,
+      "wall": 2128.0,
+      "win_rate": 0.9405,
+      "cleared": 0.9903,
+      "loss_pi": -0.01543,
+      "loss_v": 0.04745,
+      "entropy": 0.9952
+    },
+    {
+      "env_steps": 12648448,
+      "wall": 2214.8,
+      "win_rate": 0.9255,
+      "cleared": 0.9843,
+      "loss_pi": -0.01185,
+      "loss_v": 0.04837,
+      "entropy": 1.00957
+    },
+    {
+      "env_steps": 13156352,
+      "wall": 2299.2,
+      "win_rate": 0.9265,
+      "cleared": 0.9883,
+      "loss_pi": -0.01916,
+      "loss_v": 0.04695,
+      "entropy": 1.01027
+    },
+    {
+      "env_steps": 13664256,
+      "wall": 2384.8,
+      "win_rate": 0.939,
+      "cleared": 0.988,
+      "loss_pi": -0.01246,
+      "loss_v": 0.02573,
+      "entropy": 1.06376
+    },
+    {
+      "env_steps": 14172160,
+      "wall": 2469.7,
+      "win_rate": 0.933,
+      "cleared": 0.9881,
+      "loss_pi": -0.01764,
+      "loss_v": 0.04205,
+      "entropy": 1.01071
+    },
+    {
+      "env_steps": 14680064,
+      "wall": 2553.8,
+      "win_rate": 0.929,
+      "cleared": 0.9853,
+      "loss_pi": -0.01356,
+      "loss_v": 0.03062,
+      "entropy": 0.98081
+    },
+    {
+      "env_steps": 15187968,
+      "wall": 2638.5,
+      "win_rate": 0.921,
+      "cleared": 0.9809,
+      "loss_pi": -0.01509,
+      "loss_v": 0.0432,
+      "entropy": 1.07494
+    },
+    {
+      "env_steps": 15695872,
+      "wall": 2722.2,
+      "win_rate": 0.924,
+      "cleared": 0.9836,
+      "loss_pi": -0.01579,
+      "loss_v": 0.0567,
+      "entropy": 1.04495
+    },
+    {
+      "env_steps": 16203776,
+      "wall": 2806.4,
+      "win_rate": 0.933,
+      "cleared": 0.9865,
+      "loss_pi": -0.01659,
+      "loss_v": 0.04925,
+      "entropy": 1.03168
+    },
+    {
+      "env_steps": 16711680,
+      "wall": 2890.7,
+      "win_rate": 0.9225,
+      "cleared": 0.9836,
+      "loss_pi": -0.01302,
+      "loss_v": 0.0485,
+      "entropy": 0.96599
+    },
+    {
+      "env_steps": 17219584,
+      "wall": 2973.8,
+      "win_rate": 0.9235,
+      "cleared": 0.985,
+      "loss_pi": -0.01202,
+      "loss_v": 0.03801,
+      "entropy": 1.01343
+    },
+    {
+      "env_steps": 17727488,
+      "wall": 3058.2,
+      "win_rate": 0.9335,
+      "cleared": 0.9876,
+      "loss_pi": -0.0106,
+      "loss_v": 0.03618,
+      "entropy": 0.96895
+    },
+    {
+      "env_steps": 18235392,
+      "wall": 3142.6,
+      "win_rate": 0.9435,
+      "cleared": 0.99,
+      "loss_pi": -0.00659,
+      "loss_v": 0.03607,
+      "entropy": 0.97735
+    },
+    {
+      "env_steps": 18743296,
+      "wall": 3227.6,
+      "win_rate": 0.95,
+      "cleared": 0.9923,
+      "loss_pi": -0.00955,
+      "loss_v": 0.03185,
+      "entropy": 0.91385
+    },
+    {
+      "env_steps": 19251200,
+      "wall": 3314.5,
+      "win_rate": 0.954,
+      "cleared": 0.9935,
+      "loss_pi": -0.00794,
+      "loss_v": 0.03028,
+      "entropy": 0.91546
+    },
+    {
+      "env_steps": 19759104,
+      "wall": 3401.0,
+      "win_rate": 0.955,
+      "cleared": 0.994,
+      "loss_pi": -0.00207,
+      "loss_v": 0.02968,
+      "entropy": 0.92959
+    },
+    {
+      "env_steps": 19988480,
+      "wall": 3439.9,
+      "win_rate": 0.954,
+      "cleared": 0.9937
+    }
+  ]
+}

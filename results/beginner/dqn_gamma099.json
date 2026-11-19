@@ -1,0 +1,255 @@
+{
+  "agent": "dqn_gamma099",
+  "board": {
+    "h": 9,
+    "w": 9,
+    "mines": 10
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.9419,
+  "cleared": 0.9924183098591548,
+  "mean_moves": 15.8483,
+  "eval_seconds": 6.66,
+  "losses": {
+    "blunder": 0.026,
+    "bad_guess": 0.0028,
+    "unlucky": 0.0293,
+    "unknown": 0.0
+  },
+  "algo": "dqn",
+  "train_seconds": 788.2,
+  "env_steps": 8000000,
+  "best_at_env_steps": 5509120,
+  "params": 457346,
+  "device": "mps",
+  "config": {
+    "board": "beginner",
+    "name": "dqn_gamma099",
+    "env_steps": 8000000.0,
+    "channels": 64,
+    "blocks": 6,
+    "init": null,
+    "device": "auto",
+    "seed": 0,
+    "eval_every": 500000,
+    "eval_games": 2000,
+    "envs": 512,
+    "batch": 512,
+    "updates": 1,
+    "lr": 0.0003,
+    "gamma": 0.99,
+    "progress_reward": 1.0,
+    "buffer": 1000000.0,
+    "warmup": 50000,
+    "tau": 0.005,
+    "eps_end": 0.01,
+    "eps_frac": 0.2
+  },
+  "curve": [
+    {
+      "env_steps": 0,
+      "wall": 1.4,
+      "win_rate": 0.0,
+      "cleared": 0.5099,
+      "loss": 0.0,
+      "q": 0.0,
+      "eps": 1.0
+    },
+    {
+      "env_steps": 20480,
+      "wall": 2.5,
+      "win_rate": 0.0,
+      "cleared": 0.5099,
+      "loss": 0.0,
+      "q": 0.0,
+      "eps": 0.98733
+    },
+    {
+      "env_steps": 51200,
+      "wall": 3.7,
+      "win_rate": 0.0005,
+      "cleared": 0.6206,
+      "loss": 0.0,
+      "q": 0.0,
+      "eps": 0.96832
+    },
+    {
+      "env_steps": 97280,
+      "wall": 9.1,
+      "win_rate": 0.093,
+      "cleared": 0.8531,
+      "loss": 0.01654,
+      "q": -0.02528,
+      "eps": 0.93981
+    },
+    {
+      "env_steps": 166400,
+      "wall": 16.7,
+      "win_rate": 0.2615,
+      "cleared": 0.8998,
+      "loss": 0.02323,
+      "q": -0.05351,
+      "eps": 0.89704
+    },
+    {
+      "env_steps": 269824,
+      "wall": 27.6,
+      "win_rate": 0.393,
+      "cleared": 0.9219,
+      "loss": 0.02769,
+      "q": -0.07556,
+      "eps": 0.83305
+    },
+    {
+      "env_steps": 424960,
+      "wall": 43.6,
+      "win_rate": 0.597,
+      "cleared": 0.9585,
+      "loss": 0.03143,
+      "q": -0.07992,
+      "eps": 0.73706
+    },
+    {
+      "env_steps": 657920,
+      "wall": 67.0,
+      "win_rate": 0.7295,
+      "cleared": 0.9741,
+      "loss": 0.03274,
+      "q": -0.04758,
+      "eps": 0.59291
+    },
+    {
+      "env_steps": 1007104,
+      "wall": 101.5,
+      "win_rate": 0.8025,
+      "cleared": 0.9806,
+      "loss": 0.03121,
+      "q": -0.00576,
+      "eps": 0.37685
+    },
+    {
+      "env_steps": 1507328,
+      "wall": 150.2,
+      "win_rate": 0.877,
+      "cleared": 0.9826,
+      "loss": 0.02565,
+      "q": 0.08741,
+      "eps": 0.06734
+    },
+    {
+      "env_steps": 2007552,
+      "wall": 199.8,
+      "win_rate": 0.902,
+      "cleared": 0.9834,
+      "loss": 0.01801,
+      "q": 0.26847,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 2507776,
+      "wall": 248.5,
+      "win_rate": 0.887,
+      "cleared": 0.9764,
+      "loss": 0.012,
+      "q": 0.58675,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 3008000,
+      "wall": 296.9,
+      "win_rate": 0.885,
+      "cleared": 0.9771,
+      "loss": 0.01201,
+      "q": 0.86284,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 3508224,
+      "wall": 345.8,
+      "win_rate": 0.909,
+      "cleared": 0.9841,
+      "loss": 0.01162,
+      "q": 1.00943,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 4008448,
+      "wall": 394.8,
+      "win_rate": 0.9305,
+      "cleared": 0.9893,
+      "loss": 0.01025,
+      "q": 1.07253,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 4508672,
+      "wall": 443.7,
+      "win_rate": 0.937,
+      "cleared": 0.9904,
+      "loss": 0.00848,
+      "q": 1.09608,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 5008896,
+      "wall": 493.7,
+      "win_rate": 0.8955,
+      "cleared": 0.9564,
+      "loss": 0.00763,
+      "q": 1.11782,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 5509120,
+      "wall": 543.5,
+      "win_rate": 0.9445,
+      "cleared": 0.9932,
+      "loss": 0.00764,
+      "q": 1.12572,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 6009344,
+      "wall": 593.3,
+      "win_rate": 0.929,
+      "cleared": 0.9886,
+      "loss": 0.00877,
+      "q": 1.12331,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 6509568,
+      "wall": 642.9,
+      "win_rate": 0.9265,
+      "cleared": 0.9866,
+      "loss": 0.00786,
+      "q": 1.1138,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 7009792,
+      "wall": 691.6,
+      "win_rate": 0.9225,
+      "cleared": 0.9813,
+      "loss": 0.00732,
+      "q": 1.10893,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 7510016,
+      "wall": 740.6,
+      "win_rate": 0.9445,
+      "cleared": 0.9903,
+      "loss": 0.00649,
+      "q": 1.12024,
+      "eps": 0.01
+    },
+    {
+      "env_steps": 8000000,
+      "wall": 788.2,
+      "win_rate": 0.9395,
+      "cleared": 0.9866
+    }
+  ]
+}

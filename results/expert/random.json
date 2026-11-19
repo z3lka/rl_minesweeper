@@ -1,0 +1,20 @@
+{
+  "agent": "random",
+  "board": {
+    "h": 16,
+    "w": 30,
+    "mines": 99
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.0,
+  "cleared": 0.1328482939632546,
+  "mean_moves": 5.3312,
+  "eval_seconds": 19.96,
+  "losses": {
+    "blunder": 0.9731,
+    "bad_guess": 0.0209,
+    "unlucky": 0.001,
+    "unknown": 0.005
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "agent": "supervised_zeroshot",
+  "board": {
+    "h": 16,
+    "w": 16,
+    "mines": 40
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.6186,
+  "cleared": 0.9364175925925925,
+  "mean_moves": 73.9347,
+  "eval_seconds": 59.43,
+  "losses": {
+    "blunder": 0.3123,
+    "bad_guess": 0.0271,
+    "unlucky": 0.042,
+    "unknown": 0.0
+  }
+}

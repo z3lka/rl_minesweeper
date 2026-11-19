@@ -1,0 +1,20 @@
+{
+  "agent": "dqn_zeroshot",
+  "board": {
+    "h": 16,
+    "w": 16,
+    "mines": 40
+  },
+  "games": 10000,
+  "seed": 20261119,
+  "win_rate": 0.299,
+  "cleared": 0.6276388888888889,
+  "mean_moves": 28.9481,
+  "eval_seconds": 73.6,
+  "losses": {
+    "blunder": 0.6615,
+    "bad_guess": 0.0113,
+    "unlucky": 0.0204,
+    "unknown": 0.0078
+  }
+}
